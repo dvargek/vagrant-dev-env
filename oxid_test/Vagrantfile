@@ -6,13 +6,13 @@ Vagrant.configure("2") do |config|
 
 # Guest settings
   config.vm.guest = "linux"
-  config.vm.hostname = "stage.kiveda.de"
+  config.vm.hostname = "www.example.de"
 
 # Network settings
   config.vm.network :forwarded_port, host: 8080, guest: 80
 
 # Synced folders
-  config.vm.synced_folder "data/www/stage.kiveda.de/public", "/data/www/stage.kiveda.de/public"
+  config.vm.synced_folder "data/www/www.example.de/public", "/data/www/www.example.de/public"
   config.vm.synced_folder "templates", "/tmp/vagrant-puppet/templates"
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
@@ -34,7 +34,6 @@ Vagrant.configure("2") do |config|
   # # }
   #
    config.vm.provision :puppet do |puppet|
-#    puppet.facter         = { "docroot" => "stage.kiveda.de"}
      puppet.options        = " --verbose --debug --no-daemonize"
      puppet.options        = [ "--templatedir", "/tmp/vagrant-puppet/templates" ]
      puppet.manifests_path = "manifests"
