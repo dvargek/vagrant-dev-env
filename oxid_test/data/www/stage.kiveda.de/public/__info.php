@@ -1,3 +1,5 @@
 <?php
+# Testfile #
 phpinfo();
+# Testfile #
 ?>
