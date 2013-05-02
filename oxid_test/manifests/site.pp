@@ -25,6 +25,31 @@ class apache2 {
     require => Package["apache2"],
   }
   
+  package { "php5-gd":
+    ensure => present,
+    notify => Service["apache2"],
+    require => Package["apache2"],
+  }
+
+  package { "php5-curl":
+    ensure => present,
+    notify => Service["apache2"],
+    require => Package["apache2"],
+  }
+
+  package { "php5-mysql":
+    ensure => present,
+    notify => Service["apache2"],
+    require => Package["apache2"],
+  }
+
+  exec { "a2enmod rewrite":
+    command => "/usr/sbin/a2enmod rewrite",
+    notify => Service["apache2"],	
+    require => Package["apache2"],
+  }
+
+  
   service { "apache2":
     enable => true,
     ensure => running,
@@ -55,9 +80,14 @@ class apache2 {
 
 class mysql {
 
-  notice( "Installing Msql and PHP ... please wait." )
+  notice( "Installing Mysql and PHP ... please wait." )
   
   package { "mysql-server": 
+    ensure => present,
+    require => Exec["apt-get update"],
+  }
+
+  package { "mysql-client":
     ensure => present,
     require => Exec["apt-get update"],
   }
