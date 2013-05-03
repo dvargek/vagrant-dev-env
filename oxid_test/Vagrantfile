@@ -13,7 +13,6 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, host: 4443, guest: 443
 
 # Synced folders
-  config.vm.synced_folder "data/www/www.oxiddemo.de/public", "/data/www/www.oxiddemo.de/public"
   config.vm.synced_folder "templates", "/tmp/vagrant-puppet/templates"
 
 # Provisioning with puppet

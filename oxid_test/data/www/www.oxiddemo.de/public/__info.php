@@ -1,5 +1,0 @@
-<?php
-# Testfile #
-phpinfo();
-# Testfile #
-?>
