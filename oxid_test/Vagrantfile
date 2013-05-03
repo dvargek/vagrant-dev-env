@@ -9,7 +9,6 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "www.oxiddemo.de"
 
 # Network settings
-  config.vm.network :forwarded_port, host: 2020, guest: 22
   config.vm.network :forwarded_port, host: 8080, guest: 80
   config.vm.network :forwarded_port, host: 4443, guest: 443
 
