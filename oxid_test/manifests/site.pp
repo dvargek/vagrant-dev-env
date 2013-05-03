@@ -48,6 +48,12 @@ class apache2 {
     notify => Service["apache2"],	
     require => Package["apache2"],
   }
+
+  exec { "a2ensite oxid_demo":
+    command => "/usr/sbin/a2ensite oxid_demo",
+    notify => Service["apache2"],
+    require => File["/etc/apache2/sites-available/oxid_demo"],
+  }
   
   service { "apache2":
     enable => true,
@@ -57,21 +63,20 @@ class apache2 {
     require => Package["apache2","libapache2-mod-php5"],
   }
 
-  file { "/etc/apache2/httpd.virtual.conf":
-    ensure  => present,
-    owner => "root",
-    group => "root",
-    mode => 0644,
-    content => template( "httpd.virtual.conf.erb" ),
+  file { "/var/www/www.oxiddemo.de":
+    ensure => directory,
+    owner => "www-data",
+    group => "www-data",
+    mode => 0755,
     require => Package[ "apache2" ],
   }
 
-  file { "/etc/apache2/apache2.conf":
+  file { "/etc/apache2/sites-available/oxid_demo":
     ensure  => present,
     owner => "root",
     group => "root",
     mode => 0644,
-    content => template( "apache2.conf.erb" ),
+    content => template( "oxid_demo.erb" ),
     require => Package[ "apache2" ],
   }
 
@@ -107,7 +112,23 @@ class mysql {
     require => Package[ "mysql-server" ],
   }
 
+  exec { "create-oxid-database":
+    command => "/usr/bin/mysql -e 'create database oxid_demo'",
+    require => Package["mysql-server","mysql-client"],
+  }
+
 }
+
+class subversion {
+
+  notice( "Installing Subversion for OxidCE checkout ... please wait." )
+
+  package { "subversion":
+   ensure => present,
+   require => Exec["apt-get update"],
+  }
+}
+
 
 stage { "first":
     before => Stage[ "main" ],
@@ -123,5 +144,6 @@ Stage[ "main" ] -> Stage[ "last" ]
 include update
 include apache2
 include mysql
+include subversion
 
 #notice( "Everything ist done. Enjoy your development environment." )
