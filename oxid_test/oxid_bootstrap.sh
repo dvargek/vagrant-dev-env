@@ -20,8 +20,8 @@ sudo sed 's/<dbName\_ce>/oxid\_demo/g' -i /var/www/www.oxiddemo.de/config.inc.ph
 sudo sed 's/<dbUser\_ce>/oxid\_demo\_u/g' -i /var/www/www.oxiddemo.de/config.inc.php
 sudo sed 's/<dbPwd\_ce>/secure/g' -i /var/www/www.oxiddemo.de/config.inc.php
 sudo sed 's/<sShopURL\_ce>/http\:\/\/\www\.oxiddemo\.de:8080\//g' -i /var/www/www.oxiddemo.de/config.inc.php
-sudo sed 's/<sShopDir\_ce>/\/var\/www\/oxiddemo\.de/g' -i /var/www/www.oxiddemo.de/config.inc.php
-sudo sed 's/<sCompileDir\_ce>/\/var\/www\/oxiddemo\.de\/tmp/g' -i /var/www/www.oxiddemo.de/config.inc.php
+sudo sed 's/<sShopDir\_ce>/\/var\/www\/www\.oxiddemo\.de/g' -i /var/www/www.oxiddemo.de/config.inc.php
+sudo sed 's/<sCompileDir\_ce>/\/var\/www\/www\.oxiddemo\.de\/tmp/g' -i /var/www/www.oxiddemo.de/config.inc.php
 
 echo "Installation of demo oxid demo data and vagrant development box done."
 echo "Enjoy!\n"
