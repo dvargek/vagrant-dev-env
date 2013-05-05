@@ -4,12 +4,10 @@ class mysql5 {
 
   package { "mysql-server":
     ensure => present,
-    require => Exec["apt-get update"],
   }
 
   package { "mysql-client":
     ensure => present,
-    require => Exec["apt-get update"],
   }
 
   file { "/etc/mysql/my.cnf":

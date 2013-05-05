@@ -3,7 +3,6 @@ class apache2 {
 
   package { "apache2-mpm-prefork":
     ensure => present,
-#    require => Exec["apt-get update"],
   }
 
   exec { "a2enmod rewrite":
