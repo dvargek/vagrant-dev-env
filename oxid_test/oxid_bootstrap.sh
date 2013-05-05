@@ -23,5 +23,7 @@ sudo sed 's/<sShopURL\_ce>/http\:\/\/\www\.oxiddemo\.de:8080\//g' -i /var/www/ww
 sudo sed 's/<sShopDir\_ce>/\/var\/www\/www\.oxiddemo\.de/g' -i /var/www/www.oxiddemo.de/config.inc.php
 sudo sed 's/<sCompileDir\_ce>/\/var\/www\/www\.oxiddemo\.de\/tmp/g' -i /var/www/www.oxiddemo.de/config.inc.php
 
+sudo chown -R www-data:www-data /var/www/www.oxiddemo.de/
+
 echo "Installation of demo oxid demo data and vagrant development box done."
 echo "Enjoy!\n"
