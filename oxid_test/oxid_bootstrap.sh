@@ -2,16 +2,16 @@
 
 echo "Please set default root password:"
 echo "Please set default mysql root password:"
-echo "Checking out oxid demo shop"
+echo "Checking out oxid demo shop."
 /usr/bin/svn --force --quiet export http://svn.oxid-esales.com/trunk/eshop/ /var/www/www.oxiddemo.de/
 
-echo "Creating Database User"
+echo "Creating database user."
 sudo mysql -e 'GRANT ALL PRIVILEGES ON `oxid_demo`.* TO `oxid_demo_u`@"localhost" IDENTIFIED BY "secure";'
 
-echo "Installing oxid database"
+echo "Installing oxid database."
 sudo mysql -D oxid_demo < /var/www/www.oxiddemo.de/setup/sql/database.sql
 
-echo "Installing oxid demo data"
+echo "Installing oxid demo data."
 sudo mysql -D oxid_demo < /var/www/www.oxiddemo.de/setup/sql/demodata.sql
 
 echo "Doing some oxid config settings."
@@ -25,5 +25,4 @@ sudo sed 's/<sCompileDir\_ce>/\/var\/www\/www\.oxiddemo\.de\/tmp/g' -i /var/www/
 
 sudo chown -R www-data:www-data /var/www/www.oxiddemo.de/
 
-echo "Installation of demo oxid demo data and vagrant development box done."
-echo "Enjoy!\n"
+echo "Installation of demo oxid demo data and vagrant development box done. Enjoy!"
