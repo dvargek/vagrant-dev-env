@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-echo "Please set default root password:"
-echo "Please set default mysql root password:"
+#$osrootpwd = root
+#$mysqlrootpwd = mysql
+
 echo "Checking out oxid demo shop."
 /usr/bin/svn --force --quiet export http://svn.oxid-esales.com/trunk/eshop/ /var/www/www.oxiddemo.de/
 
@@ -24,5 +25,13 @@ sudo sed 's/<sShopDir\_ce>/\/var\/www\/www\.oxiddemo\.de/g' -i /var/www/www.oxid
 sudo sed 's/<sCompileDir\_ce>/\/var\/www\/www\.oxiddemo\.de\/tmp/g' -i /var/www/www.oxiddemo.de/config.inc.php
 
 sudo chown -R www-data:www-data /var/www/www.oxiddemo.de/
+
+echo "Setting root password."
+# read osrootpwd
+sudo echo "root:root" | /usr/sbin/chpasswd
+
+echo "Setting mysql root password."
+# read mysqlrootpwd
+sudo mysqladmin --user=root password mysql
 
 echo "Installation of demo oxid demo data and vagrant development box done. Enjoy!"
