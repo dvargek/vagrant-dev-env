@@ -28,7 +28,7 @@ class mysql5 {
 
   exec { "create-oxid-database":
     command => "/usr/bin/mysql -e 'create database oxid_demo'",
-    require => Package["mysql-server","mysql-client"],
+    require => Package[ "mysql-server", "mysql-client" ],
   }
 
 }
