@@ -57,6 +57,8 @@ echo "Setting mysql root password."
 sudo mysqladmin --user=root password $MYSQL_ROOTPW 
 
 echo "Cleaning up Oxid Installation."
+sudo chmod 444 /var/www/www.oxiddemo.de/config.inc.php
+sudo chmod 444 /var/www/www.oxiddemo.de/.htaccess
 sudo rm -rf /var/www/www.oxiddemo.de/setup/*
 sudo rm -rf /tmp/countfile
 
