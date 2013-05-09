@@ -8,21 +8,25 @@ CONFIG_PATH=/var/www/www.oxiddemo.de/config.inc.php
 echo "Checking out oxid demo shop."
 /usr/bin/svn --force --quiet export http://svn.oxid-esales.com/trunk/eshop/ /var/www/www.oxiddemo.de/
 
+echo "Creating database."
+sudo mysql << EOFMYSQL
+CREATE DATABASE $OXID_DB;
+EOFMYSQL
+
 echo "Creating database user."
-echo "GRANT ALL PRIVILEGES ON `oxid_demo`.* TO `$OXID_DB_USER`@'localhost' IDENTIFIED BY $OXID_DB_USER_PW;" | mysql
-
-#sudo mysql -e "GRANT ALL PRIVILEGES ON `oxid_demo`.* TO `$OXID_DB_USER`@localhost IDENTIFIED BY '$OXID_DB_USER_PW';"
-
-#OXID_DB_NAME=oxid_demo
-#QUERY="sudo /usr/bin/mysql -e \"GRANT ALL PRIVILEGES ON $OXID_DB_NAME.* TO $OXID_DB_USER@localhost IDENTIFIED BY '$OXID_DB_USER_PW';\""
-
-#echo $QUERY
+sudo mysql << EOFMYSQL
+GRANT ALL PRIVILEGES ON $OXID_DB.* TO $OXID_DB_USER@'localhost' IDENTIFIED BY '$OXID_DB_USER_PW';
+EOFMYSQL
 
 echo "Installing oxid database."
 sudo mysql -D oxid_demo < /var/www/www.oxiddemo.de/setup/sql/database.sql
 
 echo "Installing oxid demo data."
 sudo mysql -D oxid_demo < /var/www/www.oxiddemo.de/setup/sql/demodata.sql
+
+mysql -psecret -D oxid_demo << EOFMYSQL
+UPDATE oxuser SET oxpassword = md5(concat('12345',unhex(oxpasssalt))) WHERE oxid = 'oxdefaultadmin';
+EOFMYSQL
 
 echo "Doing some oxid config settings."
 sudo sed "s/<dbHost\_ce>/localhost/g" -i $CONFIG_PATH 
@@ -39,7 +43,6 @@ echo "Setting root password."
 sudo echo 'root:'$ROOTPW | /usr/sbin/chpasswd
 
 echo "Setting mysql root password."
-# read mysqlrootpwd
 sudo mysqladmin --user=root password $MYSQL_ROOTPW 
 
 echo "Installation of demo oxid demo data and vagrant development box done. Enjoy!"
