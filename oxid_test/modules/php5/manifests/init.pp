@@ -19,5 +19,4 @@ class php5 {
     ensure => present,
     require => Class[ "apache2" ],
   }
-
 }

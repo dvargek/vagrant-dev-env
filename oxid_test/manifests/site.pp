@@ -1,7 +1,6 @@
 Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 
 class update {
-
   notice( "Updating packagelist." )
 
   exec { "apt-get update":
@@ -10,13 +9,11 @@ class update {
 }
 
 class restart-services {
-
   notice( "Restarting services." )
 
   exec { "service apache2 restart":
     command => "/usr/bin/service apache2 restart",
   }
-
   exec { "service mysql restart":
     command => "/usr/bin/service mysql restart",
   }
@@ -24,33 +21,24 @@ class restart-services {
 }
 
 class pre-base {
-
   class { update: stage => "first" }
-
 }
 
 class base {
-
   notice( "Installing apache, php, mysql and subversion." )
 
   include apache2 
   include php5
   include mysql5
   include subversion
-
 }
 
 class post-base {
-
   class { restart-services: stage => "last" }
-
 }
 
-
 stage { "first":
-
     before => Stage[ "main" ],
-
 }
 
 stage { "last": }

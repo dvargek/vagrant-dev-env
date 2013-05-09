@@ -6,23 +6,13 @@ class apache2 {
 
   exec { "a2enmod rewrite":
     command => "/usr/sbin/a2enmod rewrite",
-#    notify => Service["apache2"],
     require => Package["apache2-mpm-prefork"],
   }
 
   exec { "a2ensite oxid_demo":
     command => "/usr/sbin/a2ensite oxid_demo",
-#    notify => Service["apache2"],
     require => File["/etc/apache2/sites-available/oxid_demo"],
   }
-
-#  service { "apache2":
-#    enable => true,
-#    ensure => running,
-#    hasrestart => true,
-#    hasstatus => true,
-#    require => Package["apache2-mpm-prefork"],
-#  }
 
   file { "/etc/apache2/sites-available/oxid_demo":
     ensure  => present,
@@ -40,5 +30,4 @@ class apache2 {
     mode => 0755,
     require => Package[ "apache2-mpm-prefork" ],
   }
-
 }

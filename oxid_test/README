@@ -1,0 +1,21 @@
+This package provides a fully functional Oxid CE demo environment.
+
+Requirements:
+- VirtualBox 4.2 or higher
+- Vagrant 1.2.2 or higher
+
+Download Links:
+Virtualbox
+https://www.virtualbox.org/wiki/Downloads
+
+Vagrant
+http://downloads.vagrantup.com/
+
+Installation:
+
+1. Install Vagrant and Virtualbox.
+2. Change users/passwords in ./oxid_config/oxid_demo.cfg to your need.
+3. Execute 'vagrant up' inside the main directory (where the Vagrantfile reside).
+4. Vagrant will now download the required base box, and configure the virtual machine.
+5. Change your local hosts file to point your ip to 'www.oxiddemo.de'.
+6. Open http://www.oxiddemo.de:8080 in your browser to use your demo shop.
