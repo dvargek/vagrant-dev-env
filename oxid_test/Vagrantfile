@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
 
 # Provisioning with puppet
   config.vm.provision :puppet do |puppet|
-    puppet.options        = " --verbose --debug --no-daemonize"
+    puppet.options        = " --verbose --no-daemonize"
     puppet.manifests_path = "manifests"
     puppet.module_path    = "modules"
     puppet.manifest_file  = "site.pp"
