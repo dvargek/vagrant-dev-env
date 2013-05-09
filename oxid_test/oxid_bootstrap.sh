@@ -10,7 +10,7 @@ echo "Checking out oxid demo shop."
 
 echo "Creating database."
 sudo mysql << EOFMYSQL
-CREATE DATABASE $OXID_DB;
+CREATE DATABASE $OXID_DB /*!40100 DEFAULT CHARACTER SET utf8 */;
 EOFMYSQL
 
 echo "Creating database user."
@@ -19,14 +19,27 @@ GRANT ALL PRIVILEGES ON $OXID_DB.* TO $OXID_DB_USER@'localhost' IDENTIFIED BY '$
 EOFMYSQL
 
 echo "Installing oxid database."
-sudo mysql -D oxid_demo < /var/www/www.oxiddemo.de/setup/sql/database.sql
+sudo mysql -D $OXID_DB < /var/www/www.oxiddemo.de/setup/sql/database.sql
 
 echo "Installing oxid demo data."
-sudo mysql -D oxid_demo < /var/www/www.oxiddemo.de/setup/sql/demodata.sql
+sudo mysql -D $OXID_DB < /var/www/www.oxiddemo.de/setup/sql/demodata.sql
 
-mysql -psecret -D oxid_demo << EOFMYSQL
-UPDATE oxuser SET oxpassword = md5(concat('12345',unhex(oxpasssalt))) WHERE oxid = 'oxdefaultadmin';
+echo "Creating oxid admin user."
+sudo mysql -D $OXID_DB  << EOFMYSQL
+UPDATE oxuser SET oxusername = "$OXID_ADMIN_USER" WHERE oxid = 'oxdefaultadmin';
 EOFMYSQL
+
+echo "Setting Oxid Admin Password"
+sudo mysql -D $OXID_DB  << EOFMYSQL
+UPDATE oxuser SET oxpassword = md5(concat("$OXID_ADMIN_PW",unhex(oxpasssalt))) WHERE oxid = 'oxdefaultadmin';
+EOFMYSQL
+
+#echo "Fixing Mysql collations"
+#sudo mysql -D $OXID_DB  << EOFMYSQL
+#ALTER TABLE oxuser CHANGE OXPASSWORD OXPASSWORD VARCHAR(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+##ALTER TABLE `oxuser` CHANGE `OXPASSSALT` `OXPASSSALT` CHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+#EOFMYSQL
+
 
 echo "Doing some oxid config settings."
 sudo sed "s/<dbHost\_ce>/localhost/g" -i $CONFIG_PATH 
