@@ -25,12 +25,12 @@ class pre-base {
 }
 
 class base {
-  notice( "Installing apache, php, mysql and subversion." )
+  notice( "Installing apache, php, mysql and dbar." )
 
   include apache2 
   include php5
   include mysql5
-  include subversion
+  include dbar 
 }
 
 class post-base {

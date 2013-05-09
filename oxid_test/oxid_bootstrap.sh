@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 
 CONFIG_PATH=/var/www/www.oxiddemo.de/config.inc.php
+SHOP_DL='wget --progress=dot -nH --cut-dirs=2 -np -e robots=off -r http://svn.oxid-esales.com/trunk/eshop/ -P /var/www/www.oxiddemo.de/ 2>&1|grep saved > /tmp/countfile'
+
 
 # read oxid_demo.cfg 
 . /tmp/oxid_config/oxid_demo.cfg
 
 echo "Checking out oxid demo shop."
-/usr/bin/svn --force --quiet export http://svn.oxid-esales.com/trunk/eshop/ /var/www/www.oxiddemo.de/
+eval $SHOP_DL &
+while [ `ps aux | grep wget | grep -v grep | wc -l` == 1 ];do wc -l /tmp/countfile | dbar -max 1605;sleep 10;done
+echo 100 |/usr/bin/dbar
+
+#/usr/bin/svn --force --quiet export http://svn.oxid-esales.com/trunk/eshop/ /var/www/www.oxiddemo.de/
 
 echo "Creating database."
 sudo mysql << EOFMYSQL
@@ -52,5 +58,6 @@ sudo mysqladmin --user=root password $MYSQL_ROOTPW
 
 echo "Cleaning up Oxid Installation."
 sudo rm -rf /var/www/www.oxiddemo.de/setup/*
+sudo rm -rf /tmp/countfile
 
 echo "Installation of demo oxid demo data and vagrant development box done. Enjoy!"
