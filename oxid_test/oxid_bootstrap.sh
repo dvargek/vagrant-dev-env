@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 CONFIG_PATH=/var/www/www.oxiddemo.de/config.inc.php
-#SHOP_DL='wget --progress=dot -nH --cut-dirs=2 -np -e robots=off -r http://svn.oxid-esales.com/trunk/eshop/ -P /var/www/www.oxiddemo.de/ 2>&1|grep saved > /tmp/countfile'
 SHOP_DL='/usr/bin/svn --force export http://svn.oxid-esales.com/trunk/eshop/ /var/www/www.oxiddemo.de/ > /tmp/countfile'
 
 # read oxid_demo.cfg 
